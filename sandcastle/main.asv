@@ -1,0 +1,36 @@
+%% 初始化参数
+clc;
+clear;
+total = 1000; % 共切分1000个点，每个x向距离为1
+hight = 1; % hight表示层数。暂时只研究一层。
+hh = 500; % 高度
+vv = 26;
+r=0.001; % 沙粒半径(0.0003~0.0015);
+Gamma = 0.07; % 材料粘度
+theta = linspace(30,30,total); % 倾角（度）
+theta_d = 23.4;
+
+global point;
+point = zeros(total,3,hight); % 第2维分别表示x,y,坐标 
+point(1:total,1,1) = 1:total; % 初始化x
+point(1:total,2,1) = gety(total); % 由x计算y，初始设为圆形
+point(1:total,3,1) = 
+
+%% 迭代
+for tt = 1:200  %迭代200次
+    
+    %优化开始
+    F = geogeo(total,hh,vv,theta_d);  %求在切平面上除了Fc外的合力
+    fc = Fc(theta,theta_d,total,r,Gamma);
+    for x = 1:total
+        delta_f = mage(F(x)) - fc(x);
+        if F(x) > fc(x) %如果合力超过了Fc的上限
+            point(x,2,1) = max(point(x,2,1) - 1, 0); % y--
+        end
+    end
+    plot(1:total,F);
+    plot(1:total,fc);
+end    
+
+plot(point(1:total,1,1),point (1:total,2,1));
+
