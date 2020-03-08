@@ -1,4 +1,4 @@
-function Fout = geogeo (total,hh,vv,theta_d,beta,num_fit)
+function Fout = geogeo (total,hh,vv,theta_d,Rou,beta,num_fit)
 
 global point;
 
@@ -33,7 +33,7 @@ for x = 2:total-1 % 不迭代两端点防止斜率定义有问题
         DRAGFORCE(x-1,1:3) = beta * tangent * mage(tangent) * heave / (vv^1.5); % 拖拽力
     end
     
-    G=[0,0,0.8172*L*deg2rad(point(x,3,1)-theta_d)*9.8]; % 重力矢量
+    G=[0,0,0.5*Rou*(L/1000)*deg2rad(point(x,3,1)-theta_d)*9.8/cos(deg2rad(theta_d))]; % 重力矢量
     g = dot(nn,G); % 重力法向分量
     
     GRAVITY(x-1,1:3) = G - g*nn; % 重力切向分量

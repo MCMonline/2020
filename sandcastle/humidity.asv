@@ -9,7 +9,7 @@ function [Vwaterpercent,gamma,tau,rou]=humidity(r)
 %% 调参模块
 netp = 10000;
 
-phi_range = 40:0.1:56;
+phi_range = 40:0.1:58;
 theta = deg2rad(-20); % 浸润角
 KK=70; % gamma = K*F;
 r=0.001; % 表示沙子的半径
@@ -50,12 +50,12 @@ tau = tau*pi*(r*(1+k))^2; % 把压强量化为力
 
 %plot(phi_range,Vwaterpercent);
 
-% plot(Vwaterpercent,gamma);
-% hold on
-% plot(Vwaterpercent,tau);
-% hold off
-% plot(Vwaterpercent,min(gamma,tau));
-% plot(Vwaterpercent,rou);
+plot(Vwaterpercent,gamma);
+hold on
+plot(Vwaterpercent,tau);
+hold off
+plot(Vwaterpercent,min(gamma,tau));
+plot(Vwaterpercent,rou);
 
 end
 
