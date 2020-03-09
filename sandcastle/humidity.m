@@ -54,7 +54,7 @@ tau = tau*pi*(r*(1+k))^2; % 把压强量化为力
 % hold on
 % plot(Vwaterpercent,tau);
 % hold off
-% plot(Vwaterpercent,min(gamma,tau));
+plot(Vwaterpercent,min(gamma,tau));
 % plot(Vwaterpercent,rou);
 
 end

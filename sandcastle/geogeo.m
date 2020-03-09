@@ -1,4 +1,4 @@
-function Fout = geogeo (total,hh,vv,theta_d,Rou,beta,num_fit)
+function [GRAVITY,DRAGFORCE] = geogeo (total,hh,vv,theta_d,Rou,beta,num_fit)
 
 global point;
 
@@ -27,19 +27,18 @@ for x = 2:total-1 % 不迭代两端点防止斜率定义有问题
     if (k > 0)
         DRAGFORCE(x-1,1:3) = [0,0,0];
     else
-        heave = dot(nn,[vv,0,0]); % 水流冲击分量大小
-        tangent = [vv,0,0]-heave*nn; % 水流切向分量
+        tangent = AD*dot(AD,[vv,0,0])/(mage(AD)^2); % 水流切向分量
+        %heave = dot(nn,[vv,0,0]); % 水流冲击分量大小
+        heave = mage([vv,0,0]-tangent);
 
         DRAGFORCE(x-1,1:3) = beta * tangent * mage(tangent) * heave / (vv^1.5); % 拖拽力
     end
     
-    G=[0,0,0.5*Rou*(L/1000)*deg2rad(point(x,3,1)-theta_d)*9.8/cos(deg2rad(theta_d))]; % 重力矢量
+    G = [0,0,0.5*Rou*(0.5*L/total)*sin(deg2rad(point(x,3,1)-theta_d))*9.8/cos(deg2rad(theta_d))]; % 重力矢量
     g = dot(nn,G); % 重力法向分量
     
     GRAVITY(x-1,1:3) = G - g*nn; % 重力切向分量
     
 end
-
-Fout = GRAVITY+DRAGFORCE;
 
 end
